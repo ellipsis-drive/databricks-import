@@ -15,16 +15,15 @@ from pyspark.sql import SparkSession
 from ellipsisPySpark import readVector
 from ellipsisPySpark import readRaster
 
+sparkSession = SparkSession.builder.appName('tutorial').getOrCreate()
+
 #pathId, timestampId and token as can be obtained via the Ellipsis Drive interface via 'integrate'
 pathId = '632aeb3f-ca77-4bdd-a8cd-5f733dbd87ee'
 timestampId = 'da3bb83d-8cc0-45e4-a96d-e6db0f83616b'
 token = 'epat_MY2lyE9txCGaWHxUt1CXkLnMUoAWpgkepma3XqzlranvhcpY8CaByBAaBpOybKOK'
 
-sparkSession = SparkSession.builder.appName('tutorial').getOrCreate()
-
 #read the vector layer as a spark dataframe
 spark_df = readVector(sparkSession= sparkSession, pathId=pathId, timestampId=timestampId, token=token)
-
 
 #pathId, timestampId and token as can be obtained via the Ellipsis Drive interface via 'integrate'
 pathId = 'd951d941-3340-4a81-a7a3-f87e3651f83c'
