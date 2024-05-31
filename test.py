@@ -1,4 +1,4 @@
-import dbUtils
+from pyspark import dbutils
 
 print('looking for the set name')
 
