@@ -22,10 +22,8 @@ setuptools.setup(
     install_requires=[
     'pandas',
     'numpy',
-    'json',
     'pyspark',
     'ellipsis',
-    'math'
     ],
     python_requires='>=3.6',
 )

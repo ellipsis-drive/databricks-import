@@ -3,6 +3,7 @@ import json
 import math
 import pandas as pd
 import  numpy as np
+from io import BytesIO
 
 def parseAsSparkDataFrame(r, sparkSession):
     sh = r['result']
@@ -22,7 +23,7 @@ def parseAsSparkDataFrame(r, sparkSession):
     return df_ps, pageStart
 
 
-def readVector(sparkSession, pathId, timestampId, token=None):
+def readVectorAsDataFrame(sparkSession, pathId, timestampId, token=None):
     r = el.path.vector.timestamp.listFeatures(pathId=pathId, timestampId=timestampId, listAll=False, token = token, pageStart=None)
     df_ps, pageStart = parseAsSparkDataFrame(r, sparkSession)
 
@@ -33,7 +34,7 @@ def readVector(sparkSession, pathId, timestampId, token=None):
     return df_ps
 
 
-def readRaster(sparkSession, pathId, timestampId, token=None, extent = None):
+def readRasterAsDataFrame(sparkSession, pathId, timestampId, token=None, extent = None):
     info = el.path.get(pathId=pathId, token=token)
     bands = info['raster']['bands']
 
@@ -93,3 +94,28 @@ def readRaster(sparkSession, pathId, timestampId, token=None, extent = None):
                 df.unionByName(df_new, allowMissingColumns=True)
                 del df_new
     return df
+
+
+def readRasterAsRasterFrame(sparkSession, pathId, timestampId, token=None):
+    info = el.path.get(pathId=pathId, token=token)
+    bands = info['raster']['bands']
+
+    files = el.path.raster.timestamp.file.get(pathId = pathId, timestampId=timestampId, token=token, listAll=True)['result']
+
+
+    download_urls = [   el.apiManager.baseUrl + '/path/' + pathId + '/raster/timestamp/' + timestampId + '/file/' + x['id']  for x in files]
+    if type(token) != type(None):
+        download_urls = [url + '?token=' + token for url in download_urls]
+
+    catalog = pd.DataFrame({})
+    for b in bands:
+        catalog[b['name']] = download_urls
+
+    dfRaster = sparkSession.read.raster(
+        sparkSession.createDataFrame(catalog),
+        catalog_col_names=['foo', 'bar'],
+        band_indexes=list(range(len(bands))),
+        tile_dimensions=(64, 64)
+    )
+
+    return dfRaster
