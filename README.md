@@ -21,7 +21,7 @@ sparkSession = SparkSession.builder.appName('tutorial').getOrCreate()
 #pathId, timestampId and token as can be obtained via the Ellipsis Drive interface via 'integrate'
 pathId = '632aeb3f-ca77-4bdd-a8cd-5f733dbd87ee'
 timestampId = 'da3bb83d-8cc0-45e4-a96d-e6db0f83616b'
-token = 'epat_MY2lyE9txCGaWHxUt1CXkLnMUoAWpgkepma3XqzlranvhcpY8CaByBAaBpOybKOK'
+token = 'epat_3TdJ2ZnmkC3wFfyiJWg6Mb9VqCE829eRPufY4CsVWaZXwKtwP5smEPGieSWrJOqJ'
 
 #read the vector layer as a spark dataframe
 spark_df = readVectorAsDataFrame(sparkSession= sparkSession, pathId=pathId, timestampId=timestampId, token=token)
@@ -29,7 +29,7 @@ spark_df = readVectorAsDataFrame(sparkSession= sparkSession, pathId=pathId, time
 #pathId, timestampId and token as can be obtained via the Ellipsis Drive interface via 'integrate'
 pathId = 'd951d941-3340-4a81-a7a3-f87e3651f83c'
 timestampId = 'c6d976d8-7fc3-4ff4-80d9-734928701e24'
-token = 'epat_Fr2QlosaiN0M0tGEWhlRlPhLnmOP5xP0OuPq1ca6kzgtRF6D3l4Bd94lOSu7RcQ8'
+token = 'epat_hT0EL2RIKd0ZCOjT9EaTrSHtDALwQEgHYfPcDGTSCZwU00V6UhWiqsui2KJnHqLx'
 
 #read the raster layer as a spark dataframe
 spark_df = readRasterAsDataFrame(sparkSession= sparkSession, pathId=pathId, timestampId=timestampId, token=token)
